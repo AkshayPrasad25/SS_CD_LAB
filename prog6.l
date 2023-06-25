@@ -1,19 +1,28 @@
 %{
-#include <stdio.h>
-int c=0;
+#include<stdio.h>
+int sl=0;
+int ml=0;
 %}
 %%
-[/][*].*["*/"]*[*][/] {c++; fprintf(yyout," ");}
-"//".* {c++;fprintf(yyout," ");}
+"/*"[a-zA-Z0-9' '\t\n]+"*/" ml++;
+"//".* sl++;
 %%
-int main(int argc, char** argv){
-	if(argc!=3){
-		printf("Invalid input\n");
-		return 0;
-	}
-	yyin = fopen(argv[1],"r");
-	yyout = fopen(argv[2],"w");
-	yylex();
-	printf("No. of comment lines: %d\n",c);
-	return 0;
+main()
+{
+ yyin=fopen("f1.c","r");
+ yyout=fopen("f2.c","w");
+ yylex();
+ fclose(yyin);
+ fclose(yyout);
+ printf("\n Number of single line comments are = %d\n",sl);
+ printf("\nNumber of multiline comments are =%d\n",ml);
 }
+
+
+//f1.c
+// int main()
+// {
+//  // this is a comment
+//  printf("hello");
+//  /* this is another comment */
+// }
